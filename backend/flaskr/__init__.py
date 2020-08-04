@@ -209,11 +209,14 @@ def create_app(test_config=None):
         else:
             random_question=Question.query.filter(Question.id.notin_(previous_questions)).order_by(func.random()).first()
         if (random_question) is None :
-          abort(404)
+            return jsonify({
+            'success': True,
+            'message': 'No available Question'})
+
         return jsonify({
             'success': True,
             'question': random_question.format(),
-      })
+            })
   # @TODO:
   # Create error handlers for all expected errors
   # including 404 and 422.
