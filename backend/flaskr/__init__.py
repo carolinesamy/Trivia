@@ -3,7 +3,7 @@ from flask import Flask, request, abort, jsonify
 from flask_sqlalchemy import SQLAlchemy
 from sqlalchemy import func
 from models import setup_db, Question, Category
-# from flask_cors import CORS
+from flask_cors import CORS
 import random
 
 QUESTIONS_PER_PAGE = 10
@@ -28,19 +28,17 @@ def create_app(test_config=None):
   # create and configure the app
   app = Flask(__name__)
   setup_db(app)
-  # CORS(app)
+  CORS(app)  # @TODO: Set up CORS. Allow '*' for origins. Delete the sample route after completing the TODOs
 
 
-  # @TODO: Set up CORS. Allow '*' for origins. Delete the sample route after completing the TODOs
+
+  # @TODO: Use the after_request decorator to set Access-Control-Allow
 
   @app.after_request
   def after_request(response):
       response.headers.add('Access-Control-Allow-Headers', 'Content-Type,Authorization,true')
       response.headers.add('Access-Control-Allow-Methods', 'GET,PUT,POST,DELETE,OPTIONS')
       return response
-
-  # @TODO: Use the after_request decorator to set Access-Control-Allow
-
 
   # @TODO:
   # Create an endpoint to handle GET requests
