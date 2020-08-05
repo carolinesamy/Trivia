@@ -2,3 +2,4 @@ backend/__pycache__/
 backend/flaskr/__pycache__/
 backend/venv/
 README2.md
+frontend/node_modules
