@@ -87,7 +87,7 @@ def create_app(test_config=None):
   #
   # TEST: When you click the trash icon next to a question, the question will be removed.
   # This removal will persist in the database and when you refresh the page.
-  @app.route('/questions/<id>', methods=['DELETE'])
+  @app.route('/questions/<int:id>', methods=['DELETE'])
   def delete_question(id):
       try:
          question= Question.query.filter(Question.id == id).one_or_none()
@@ -164,9 +164,10 @@ def create_app(test_config=None):
   # categories in the left column will cause only questions of that
   # category to be shown.
 
-  @app.route('/categories/<int:category_id>/questions')
-  def get_by_category(category_id):
+  @app.route('/categories/<int:id>/questions')
+  def get_by_category(id):
       try:
+          category_id=id
           selection=Question.query.join(Category,Question.category == Category.id).filter(Question.category == category_id).all()
           # categories=[cat.format() for cat in Category.query.all()]
           categories=decorate_categories(Category.query.all())
@@ -192,12 +193,14 @@ def create_app(test_config=None):
   # TEST: In the "Play" tab, after a user selects "All" or a category,
   # one question at a time is displayed, the user is allowed to answer
   # and shown whether they were correct or not.
-  @app.route('/quizzes', methods=['POST'])#/<int:cat_id>
+  @app.route('/quizzes', methods=['POST'])
   def show_quizzes():#cat_id
         body = request.get_json()
-        category =body.get('quiz_category',None)
+        category =body.get('quiz_category',None)['id']
 
         previous_questions =body.get('previous_questions',None)
+        # print(category)
+        # print(previous_questions)
         if not previous_questions :
             previous_questions=[]
         if category:
