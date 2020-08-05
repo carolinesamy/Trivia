@@ -166,7 +166,7 @@ def create_app(test_config=None):
   # categories in the left column will cause only questions of that
   # category to be shown.
 
-  @app.route('/categories/<int:category_id>/questions', methods=['POST'])
+  @app.route('/categories/<int:category_id>/questions')
   def get_by_category(category_id):
       try:
           selection=Question.query.join(Category,Question.category == Category.id).filter(Question.category == category_id).all()

@@ -38,9 +38,7 @@ class TriviaTestCase(unittest.TestCase):
             'category': 6,
             'difficulty' :3
             }
-            self.search_question={
-            'searchTerm':'World Cup'
-            }
+
     def tearDown(self):
         """Executed after reach test"""
         pass
@@ -58,6 +56,16 @@ class TriviaTestCase(unittest.TestCase):
         self.assertEqual(data['success'],True)
         self.assertTrue(data['total_categories'])
         self.assertTrue(len(data['categories']))
+
+    def test_get_questions_basedon_categories(self):
+        res = self.client().get('/categories/5/questions')
+        data = json.loads(res.data)
+
+        self.assertEqual(res.status_code,200)
+        self.assertEqual(data['success'],True)
+        self.assertEqual(data['current_category'],5)
+        self.assertTrue(data['total_questions'])
+        self.assertTrue(len(data['questions']))
 
     def test_get_question(self):
         res = self.client().get('/questions')
