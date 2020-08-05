@@ -115,7 +115,7 @@ The API will return three error types when requests fail:
 ```
 ### GET /categories
 - General:
-    return a list of all categories, total number of categories and success value.
+    return a list of all categories, total number of questions and success value.
 
 - sample: curl http://127.0.0.1:5000/categories
 ```
@@ -233,8 +233,7 @@ The API will return three error types when requests fail:
 }
 ```
 ### POST /questions
-- paramter: searchTerm
-
+- paramter: {searchTerm}
 - General:
     return current category, list of questions found the word, total number of questions and success value.
 
@@ -263,11 +262,11 @@ The API will return three error types when requests fail:
 }
 
 ```
-### POST /categories/{category_id}/questions
+### GET /categories/{category_id}/questions
 - General:
-    return a list of all categories, total number of categories and success value.
+    return a list of questions based on category,list of all category, current category, total number of questions and success value.
 
-- sample: curl http://127.0.0.1:5000/categories
+- sample: curl http://127.0.0.1:5000/categories/5/questions
 ```
 {
   "categories": {
@@ -278,26 +277,52 @@ The API will return three error types when requests fail:
     "5": "Entertainment",
     "6": "Sports"
   },
+  "current_category": 5,
+  "questions": [
+    {
+      "answer": "Apollo 13",
+      "category": 5,
+      "difficulty": 4,
+      "id": 2,
+      "question": "What movie earned Tom Hanks his third straight Oscar nomination, in 1996?"
+    },
+    {
+      "answer": "Tom Cruise",
+      "category": 5,
+      "difficulty": 4,
+      "id": 4,
+      "question": "What actor did author Anne Rice first denounce, then praise in the role of her beloved Lestat?"
+    },
+    {
+      "answer": "Edward Scissorhands",
+      "category": 5,
+      "difficulty": 3,
+      "id": 6,
+      "question": "What was the title of the 1990 fantasy directed by Tim Burton about a young man with multi-bladed appendages?"
+    }
+  ],
   "success": true,
-  "total_categories": 6
+  "total_questions": 3
 }
 ```
 ### POST /quizzes
+- params {previous_questions , quiz_category}
+  This endpoint take category and previous question parameters
 - General:
-    return a list of all categories, total number of categories and success value.
+    return a random questions within the given category,
+    if provided, and that is not one of the previous questions.
 
-- sample: curl http://127.0.0.1:5000/categories
+- sample: curl -X POST -H "Content-Type: application/json" -d '{"previous_questions":[5,13,14],"quiz_category":5}' http://127.0.0.1:5000/quizzes
+
 ```
 {
-  "categories": {
-    "1": "Science",
-    "2": "Art",
-    "3": "Geography",
-    "4": "History",
-    "5": "Entertainment",
-    "6": "Sports"
+  "question": {
+    "answer": "Edward Scissorhands",
+    "category": 5,
+    "difficulty": 1,
+    "id": 44,
+    "question": "What was the title of the 1990 fantasy directed by Tim Burton about a young man with multi-bladed appendages?"
   },
-  "success": true,
-  "total_categories": 6
+  "success": true
 }
 ```
